@@ -1,0 +1,6 @@
+*.swp
+*.un~
+*.o
+*.lock
+*.log
+*.vim

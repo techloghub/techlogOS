@@ -1,0 +1,27 @@
+###############################################################
+# Configuration file for Bochs
+###############################################################
+
+# how much memory the emulated machine will have
+megs: 32
+
+# filename of ROM images
+romimage: file=$BXSHARE/BIOS-bochs-latest
+vgaromimage: file=$BXSHARE/VGABIOS-lgpl-latest
+vga: extension=vbe, update_freq=15
+
+# magic_break: enabled=1
+
+# what disk images will be used
+floppya: 1_44=boot.img, status=inserted
+
+# choose the boot disk.
+boot: a
+# log: stdout.log
+
+# enable key mapping, using US layout as default.
+keyboard: keymap=$BXSHARE/keymaps/x11-pc-us.map
+mouse: enabled=1
+mouse: type=imps2, enabled=1
+mouse: type=serial, enabled=1
+mouse: enabled=0, toggle=ctrl+f10
