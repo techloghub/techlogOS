@@ -42,3 +42,6 @@
 
 # 5. 鸣谢
 本系统 demo 主要参考于渊所著的《Orange'S 一个操作系统的实现》，其他参考资料见完整日志
+
+# 6. 微信公众号
+![avatar](https://techlog.cn/article/list/images/7ce4129194e19e1715a58f5b5c08f80b.jpg)
