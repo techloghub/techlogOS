@@ -1,37 +1,27 @@
-[section .data]
-randstr	db "Welcome to kernel by techlog.cn", 0
+SELECTOR_KERNEL_CS	equ	8
+
+; 导入函数与全局变量
+extern  copy_gdt	
+extern	gdt_ptr
+
+[SECTION .bss]
+StackSpace		resb	2 * 1024 * 1024
+StackTop:
 
 [section .text]
 global _start
 
 _start:
-	push dword randstr
-	call DispStr
-	add esp, 4
-	jmp	$
+	mov	esp, StackTop	; 堆栈在 bss 段中
 
-DispStr:
-	push	ebp
-	mov	ebp, esp
-	push	ebx
-	push	esi
-	push	edi
+	sgdt	[gdt_ptr]	; cstart() 中将会用到 gdt_ptr
+	call	copy_gdt	; 在此函数中改变了gdt_ptr，让它指向新的GDT
+	lgdt	[gdt_ptr]	; 使用新的GDT
 
-	mov	esi, [ebp + 8]	; pszInfo
-	mov	edi, (80 * 7) * 2
-	mov	ah, 0Fh
-.1:
-	lodsb
-	test	al, al
-	jz	.2
-.3:
-	mov	[gs:edi], ax
-	add	edi, 2
-	jmp	.1
+	jmp	SELECTOR_KERNEL_CS:csinit
+csinit:                 ; 长跳转，让 GDT 切换生效
 
-.2:
-	pop	edi
-	pop	esi
-	pop	ebx
-	pop	ebp
-	ret
+	push	0
+	popfd
+
+	hlt

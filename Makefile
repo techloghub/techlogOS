@@ -1,24 +1,28 @@
-ENTRYPOINT		= 0x10000
+ENTRYPOINT  = 0x10000
 
-ASM				= nasm
-LD				= ld
-ASMBFLAGS		= -I boot/include/
-ASMKFLAGS		= -I include/ -f elf
-LDFLAGS			= -m elf_i386 -s -Ttext $(ENTRYPOINT)
-ORANGESBOOT		= boot/boot.bin boot/loader.bin
-ORANGESKERNEL	= kernel.bin
-OBJS			= kernel/kernel.o
-BOOT_BIN		= boot/boot.bin
-LDR_BIN			= boot/loader.bin
-KERNEL_BIN		= kernel.bin
+ASM             = nasm
+CC              = gcc
+CFLAGS          = -m32 -g -I include/ -c -fno-builtin -fno-stack-protector
+LD              = ld
+ASMBFLAGS       = -I boot/include/
+ASMKFLAGS       = -I lib -f elf
+LDFLAGS         = -m elf_i386 -s -Ttext $(ENTRYPOINT)
 
-IMG:=boot.img
-FLOPPY:=/mnt/floppy/
+ORANGESBOOT     = boot/boot.bin boot/loader.bin
+ORANGESKERNEL   = kernel.bin
+OBJS            = kernel/kernel.o kernel/start.o lib/string.o
+BOOT_BIN        = boot/boot.bin
+LDR_BIN         = boot/loader.bin
+KERNEL_BIN      = kernel.bin
+
+IMG             = boot.img
+FLOPPY          = /mnt/floppy/
 
 .PHONY : clean everything imgage all
 
 everything: clean $(ORANGESBOOT) $(ORANGESKERNEL)
-all: everything imgage
+all: everything image
+bochs: all bochstart
 
 image : $(LDR_BIN) $(KERNEL_BIN)
 	# bximg
@@ -28,6 +32,9 @@ image : $(LDR_BIN) $(KERNEL_BIN)
 	sudo cp $(KERNEL_BIN) $(FLOPPY) -fv
 	sudo umount $(FLOPPY)
 
+bochstart:
+	bochs -f bochsrc.bxrc
+
 clean :
 	rm -f $(OBJS) $(ORANGESBOOT) $(ORANGESKERNEL)
 
@@ -35,7 +42,7 @@ $(BOOT_BIN) : boot/boot.asm boot/include/lib.asm boot/include/fat12hdr.asm
 	$(ASM) $(ASMBFLAGS) -o $@ $<
 
 $(LDR_BIN) : boot/loader.asm boot/include/lib.asm \
-			boot/include/fat12hdr.asm boot/include/pm.asm
+             boot/include/fat12hdr.asm boot/include/pm.asm
 	$(ASM) $(ASMBFLAGS) -o $@ $<
 
 $(ORANGESKERNEL) : $(OBJS)
@@ -44,11 +51,8 @@ $(ORANGESKERNEL) : $(OBJS)
 kernel/kernel.o : kernel/kernel.asm
 	$(ASM) $(ASMKFLAGS) -o $@ $<
 
-kernel/start.o : kernel/start.c include/type.h include/const.h include/protect.h
+kernel/start.o : kernel/start.c kernel/start.h
 	$(CC) $(CFLAGS) -o $@ $<
-
-lib/kliba.o : lib/kliba.asm
-	$(ASM) $(ASMKFLAGS) -o $@ $<
 
 lib/string.o : lib/string.asm
 	$(ASM) $(ASMKFLAGS) -o $@ $<
