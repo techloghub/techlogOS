@@ -9,19 +9,29 @@
 ├── bochsrc.bxrc
 ├── boot
 │   ├── boot.asm
+│   ├── boot.bin
 │   ├── include
 │   │   ├── fat12hdr.asm
 │   │   ├── lib.asm
 │   │   └── pm.asm
 │   ├── loader.asm
+│   ├── loader.bin
 │   └── Makefile
 ├── boot.img
 ├── kernel
-│   └── kernel.asm
+│   ├── kernel.asm
+│   ├── kernel.o
+│   ├── start.c
+│   ├── start.h
+│   └── start.o
+├── kernel.bin
+├── lib
+│   ├── string.asm
+│   └── string.o
 ├── Makefile
-└── Readme.md
+└── README.md
 
-3 directories, 12 files
+4 directories, 20 files
 ```
 
 # 3. 启动方式
