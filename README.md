@@ -54,5 +54,5 @@
 本系统 demo 主要参考于渊所著的《Orange'S 一个操作系统的实现》，其他参考资料见完整日志
 
 # 6. 微信公众号
-![Uploading psb.jpeg…]()
+![psb](https://user-images.githubusercontent.com/5253434/115501310-90f1c780-a2a5-11eb-98c2-bdb3ca886a3a.jpeg)
 
