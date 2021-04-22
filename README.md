@@ -53,3 +53,6 @@
 
 # 5. 鸣谢
 本系统 demo 主要参考于渊所著的《Orange'S 一个操作系统的实现》，其他参考资料见完整日志
+
+# 6. 微信公众号
+![Snipaste_2021-04-21_13-30-12](https://user-images.githubusercontent.com/5253434/115501427-c991a100-a2a5-11eb-8263-48452ff4c5f8.jpg)
