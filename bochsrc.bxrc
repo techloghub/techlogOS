@@ -10,7 +10,7 @@ romimage: file=$BXSHARE/BIOS-bochs-latest
 vgaromimage: file=$BXSHARE/VGABIOS-lgpl-latest
 vga: extension=vbe, update_freq=15
 
-# magic_break: enabled=1
+magic_break: enabled=1
 
 # what disk images will be used
 floppya: 1_44=boot.img, status=inserted
