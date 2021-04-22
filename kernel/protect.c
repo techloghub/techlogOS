@@ -1,5 +1,6 @@
 #include "protect.h"
 #include "functions.h"
+#include "global.h"
 #include "i8259.h"
 
 void init_protect_mode() {
